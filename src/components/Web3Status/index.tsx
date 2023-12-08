@@ -39,7 +39,8 @@ export default function Web3Status() {
     if (window && window.ethereum !== "undefined") {
       setHasMetamask(true);
     }
-  });
+    connect();
+  }, []);
 
   let provider;
   async function connect() {
@@ -73,19 +74,23 @@ export default function Web3Status() {
 
   return (
     <div>
-      {isConnected && address ? (
-        <ConnectWallet>{isConnected && addressShort}</ConnectWallet>
+      {hasMetamask ? (
+        isConnected && address ? (
+          <ConnectWallet>{isConnected && addressShort}</ConnectWallet>
+        ) : (
+          <ConnectWalletWrapper onClick={() => connect()}>
+            <img
+              height={"38px"}
+              width={"44px"}
+              style={{ marginLeft: "24px" }}
+              src={wallet}
+              alt="logo"
+            />
+            <ConnectWallet>Connect</ConnectWallet>
+          </ConnectWalletWrapper>
+        )
       ) : (
-        <ConnectWalletWrapper onClick={() => connect()}>
-          <img
-            height={"38px"}
-            width={"44px"}
-            style={{ marginLeft: "24px" }}
-            src={wallet}
-            alt="logo"
-          />
-          <ConnectWallet>Connect</ConnectWallet>
-        </ConnectWalletWrapper>
+        <div>'Install MetaMask'</div>
       )}
     </div>
   );

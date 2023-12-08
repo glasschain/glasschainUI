@@ -2,7 +2,6 @@ import React, { useCallback } from "react";
 import { useLocation, useHistory } from "react-router-dom";
 
 // import logo from "../../assets/logo 1.png";
-// import Web3Status from "../Web3Status";
 import {
   ActiveMenuItem,
   LogoContainer,

@@ -54,7 +54,7 @@ export const StatusContainer = styled.div`
   align-items: center;
   justify-content: flex-end;
   gap: 8px;
-  background: rgba(0, 0, 0, 0.17);
+  background: teal;
   margin-left: auto;
   backdrop-filter: blur(20px);
 `;
