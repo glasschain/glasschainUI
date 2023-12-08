@@ -21,7 +21,7 @@ const ConnectWallet = styled.button`
   border: none;
   text-transform: uppercase;
   cursor: pointer;
-  margin-right: 24px;
+  margin: 24px;
 `;
 
 declare global {

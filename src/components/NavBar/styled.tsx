@@ -22,7 +22,6 @@ export const LogoContainer = styled.div`
 
 export const MenuContainer = styled.div`
   display: flex;
-  flex: 0.7;
   align-items: center;
   justify-content: space-around;
   margin: 0px 12px;
@@ -34,7 +33,7 @@ const baseLinkCss = css`
   justify-content: center;
   gap: 4px;
   margin: 0px 12px;
-  padding: 12px 0px;
+  padding: 0px 24px;
   width: fit-content;
   position: relative;
   text-align: center;
@@ -64,7 +63,7 @@ export const MenuItem = styled(BaseMenuItem)``;
 export const ActiveMenuItem = styled(BaseMenuItem)`
   padding: 0px 24px;
   height: 100%;
-  background: linear-gradient(180deg, #757070 0%, rgba(112, 112, 112, 0) 100%);
+  background: teal;
   &:after {
     content: "";
     position: absolute;
