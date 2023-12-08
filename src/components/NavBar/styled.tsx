@@ -7,7 +7,7 @@ import { NavLink } from "react-router-dom";
 export const Nav = styled.nav`
   display: flex;
   width: 100%;
-  background: rgba(42, 42, 43, 0.61);
+  background: black;
 `;
 
 export const LogoContainer = styled.div`
