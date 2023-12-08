@@ -11,6 +11,7 @@ import {
   Nav,
   StatusContainer,
 } from "./styled";
+import Web3Status from "../Web3Status";
 
 const MenuItemLink = ({
   to,
@@ -88,10 +89,10 @@ const Navbar = () => {
       <MenuContainer>
         <PageTabs />
       </MenuContainer>
-      {/* 
+
       <StatusContainer>
         <Web3Status />
-      </StatusContainer> */}
+      </StatusContainer>
     </Nav>
   );
 };
