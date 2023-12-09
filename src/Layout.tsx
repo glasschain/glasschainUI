@@ -21,6 +21,8 @@ import {
 import Web3Status from "../src/components/Web3Status/index";
 import { SearchProps } from "antd/es/input/Search";
 import { LogInWithAnonAadhaar, useAnonAadhaar } from "anon-aadhaar-react";
+import { useWeb3Context } from "./contexts/web3Context";
+import fetchAllCompanies from "./hooks/interact/fetchAllCompanies";
 
 const { Search } = Input;
 
@@ -126,20 +128,52 @@ export const PageTabs = () => {
 
 export default function Layout() {
   const [anonAadhaar] = useAnonAadhaar();
-
+  const [companiesList, setCompaniesList] = useState<Array<unknown>>([]);
   const [searchTerm, setSearchTerm] = useState<string>();
-
-  const filteredList = searchTerm
-    ? companiesList.filter(
-        (item) =>
-          searchTerm &&
-          item.name.toLowerCase().includes(searchTerm.toLowerCase())
-      )
-    : companiesList;
 
   useEffect(() => {
     console.log("Anon Aadhaar status: ", anonAadhaar);
   }, [anonAadhaar]);
+
+  const { signer } = useWeb3Context();
+
+  useEffect(() => {
+    if (signer) {
+      const fecthData = async () => {
+        const res = await fetchAllCompanies(signer);
+        return res;
+      };
+      fecthData().then((res) => {
+        const objKeys = Object.keys(res); // array of strings
+        const objValues = Object.values(res); // array of 3 arrays
+
+        // Transpose the matrix to group data by attribute
+        const transposedData = objValues[0].map((_, colIndex) =>
+          objValues.map((row) => row[colIndex])
+        );
+
+        // Create the result array in the desired format
+        const resultArray = transposedData.map((attributeValues) => {
+          const resultObject = {};
+          objKeys.forEach((attribute, index) => {
+            resultObject[attribute] = attributeValues[index];
+          });
+          return resultObject;
+        });
+
+        const filteredList = searchTerm
+          ? resultArray.filter(
+              (item) =>
+                searchTerm &&
+                item.companyName
+                  .toLowerCase()
+                  .includes(searchTerm.toLowerCase())
+            )
+          : resultArray;
+        setCompaniesList(filteredList);
+      });
+    }
+  }, [searchTerm, signer]);
 
   const Navbar = () => {
     // const history = useHistory();
@@ -209,7 +243,7 @@ export default function Layout() {
                 path="/companies"
                 component={() => (
                   <Companies
-                    list={filteredList}
+                    list={companiesList}
                     searchTerm={searchTerm}
                   ></Companies>
                 )}

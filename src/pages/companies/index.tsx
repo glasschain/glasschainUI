@@ -1,6 +1,9 @@
 import styled from "styled-components";
 import { StarFilled, StarOutlined } from "@ant-design/icons";
 import AddReview from "../../components/AddReview";
+import { useEffect } from "react";
+import { useWeb3Context } from "../../contexts/web3Context";
+import fetchAllCompanies from "../../hooks/interact/fetchAllCompanies";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -74,7 +77,7 @@ export default function Companies(props) {
         {props.list.map((company) => {
           return (
             <CompaniesCard>
-              <CompanyName>{company.name}</CompanyName>
+              <CompanyName>{company.companyName}</CompanyName>
               <RatingsWrapper>
                 {/* <RatingsText>Ratings:</RatingsText> */}
                 {Array.from({ length: 5 }).map((_, idx) =>

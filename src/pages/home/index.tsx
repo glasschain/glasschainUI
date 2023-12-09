@@ -149,18 +149,30 @@ export default function Home() {
 
   return (
     <Wrapper>
-      {/* <ReviewForm signer={signer}/>
-      <SimpleForm signer={signer}/>
-      <button onClick={ async () => {
-        await fetchAllCompanies(signer);
-      }} >fetch companies</button>
-      <button onClick={ async () => {
-        await fetchCompanyRatings(signer, "gmail.com");
-      }} >fetch company rating</button>
-      <button onClick={ async () => {
-        await fetchUser(signer);
-      }} >fetch user</button>
-      <MyForm signer = {signer}/> */}
+      <ReviewForm signer={signer} />
+      <SimpleForm signer={signer} />
+      <button
+        onClick={async () => {
+          await fetchAllCompanies(signer);
+        }}
+      >
+        fetch companies
+      </button>
+      <button
+        onClick={async () => {
+          await fetchCompanyRatings(signer, "gmail.com");
+        }}
+      >
+        fetch company rating
+      </button>
+      <button
+        onClick={async () => {
+          await fetchUser(signer);
+        }}
+      >
+        fetch user
+      </button>
+      <MyForm signer={signer} />
       <RegisterForm>
         <RegisterText>Register</RegisterText>
         <Dragger {...props}>
