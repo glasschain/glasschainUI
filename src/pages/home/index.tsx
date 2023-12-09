@@ -3,7 +3,6 @@ import { useHistory } from "react-router-dom";
 import { useCallback } from "react";
 
 const Wrapper = styled.div`
-  background-image: url("/assets/backgroundImage.png");
   width: 100%;
   height: 100vh;
 `;

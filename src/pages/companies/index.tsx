@@ -1,36 +1,79 @@
 import styled from "styled-components";
-import { useHistory } from "react-router-dom";
-import { useCallback } from "react";
 
 const Wrapper = styled.div`
-  background-image: url("/assets/backgroundImage.png");
   width: 100%;
   height: 100vh;
 `;
 
-const PuppiesButton = styled.button`
-  border-radius: 50px;
-  background: #e19143;
-  border: none;
-  padding: 12px 54px;
-  color: #fff;
-  font-family: sans-serif;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 800;
-  line-height: normal;
-  margin: auto;
-`;
-
-const PuppiesWrapper = styled.div`
-  padding-top: 164px;
+const CompaniesCard = styled.div`
   display: flex;
+  margin: 24px;
+  width: 50%;
+  background-color: var(--gd-theme-color-white, white);
+  border-radius: 3px;
+  box-shadow: 0 0 2px 0 #c4c7cc;
+  padding: 16px !important;
+  cursor: pointer;
+  &:hover {
+    border: 2px solid teal;
+  }
 `;
-export default function Companies() {
-  const history = useHistory();
 
-  const handleGetPuppies = useCallback(() => {
-    history.push("/mint");
-  }, [history]);
-  return <Wrapper></Wrapper>;
+const CompanyName = styled.div`
+  color: black;
+`;
+
+const RatingsText = styled.div`
+  color: black;
+`;
+
+const RatingsWrapper = styled.div`
+  display: flex;
+  margin-left: auto;
+`;
+
+const Ratings = styled.div`
+  color: green;
+  margin-left: 12px;
+`;
+
+export default function Companies() {
+  const companiesList = [
+    {
+      id: "1",
+      name: "Heroku",
+      ratings: "4",
+    },
+    {
+      id: "2",
+      name: "Deloitte",
+      ratings: "2",
+    },
+    {
+      id: "3",
+      name: "TCS",
+      ratings: "5",
+    },
+    {
+      id: "4",
+      name: "IBM",
+      ratings: "4",
+    },
+  ];
+
+  return (
+    <Wrapper>
+      {companiesList.map((company) => {
+        return (
+          <CompaniesCard>
+            <CompanyName>{company.name}</CompanyName>
+            <RatingsWrapper>
+              <RatingsText>Ratings:</RatingsText>
+              <Ratings>{company.ratings}</Ratings>
+            </RatingsWrapper>
+          </CompaniesCard>
+        );
+      })}
+    </Wrapper>
+  );
 }
