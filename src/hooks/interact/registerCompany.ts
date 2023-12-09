@@ -3,7 +3,7 @@ import { Contract, Provider, Signer } from "ethers";
 import ABI from "./contractABI.json";
 import { uploadCompanyData } from "../ipfs";
 
-const contractAddress = "0xe2d62acfb6054268b74311fb159e07faad3c15e5";
+const contractAddress = "0x069ebabdbbed441b90cd662a78929e7e38820921";
 
 async function registerCompany(
   signerOrProvider: Signer | Provider,
