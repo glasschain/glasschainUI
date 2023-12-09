@@ -1,15 +1,16 @@
 import styled from "styled-components";
 import { StarFilled, StarOutlined } from "@ant-design/icons";
+import AddReview from "../../components/AddReview";
 
 const Wrapper = styled.div`
   width: 100%;
   height: 100vh;
+  display: flex;
 `;
 
 const CompaniesCard = styled.div`
   display: flex;
   margin: 24px;
-  width: 50%;
   background-color: var(--gd-theme-color-white, white);
   border-radius: 3px;
   box-shadow: 0 0 2px 0 #c4c7cc;
@@ -42,23 +43,53 @@ const Ratings = styled.div`
   margin-left: 12px;
 `;
 
+const CompaniesWrapper = styled.div`
+  width: 50%;
+`;
+
+const AddReviewWrapper = styled.div`
+  display: flex;
+  align-items: start;
+  border: 1px solid grey;
+  background: teal;
+  width: 36%;
+  justify-content: center;
+  margin-left: auto;
+  margin-right: 24px;
+  margin-top: 24px;
+  border-radius: 12px;
+  .ant-form {
+    margin-top: 56px;
+  }
+  height: 400px;
+  .ant-btn-primary {
+    background: black;
+  }
+`;
+
 export default function Companies(props) {
   return (
     <Wrapper>
-      {props.list.map((company) => {
-        return (
-          <CompaniesCard>
-            <CompanyName>{company.name}</CompanyName>
-            <RatingsWrapper>
-              {/* <RatingsText>Ratings:</RatingsText> */}
-              {Array.from({ length: 5 }).map((_, idx) =>
-                idx < +company.ratings ? <StarFilled /> : <StarOutlined />
-              )}
-              <Ratings>{company.ratings}</Ratings>
-            </RatingsWrapper>
-          </CompaniesCard>
-        );
-      })}
+      <CompaniesWrapper>
+        {props.list.map((company) => {
+          return (
+            <CompaniesCard>
+              <CompanyName>{company.name}</CompanyName>
+              <RatingsWrapper>
+                {/* <RatingsText>Ratings:</RatingsText> */}
+                {Array.from({ length: 5 }).map((_, idx) =>
+                  idx < +company.ratings ? <StarFilled /> : <StarOutlined />
+                )}
+                <Ratings>{company.ratings}</Ratings>
+              </RatingsWrapper>
+            </CompaniesCard>
+          );
+        })}
+      </CompaniesWrapper>
+
+      <AddReviewWrapper>
+        <AddReview />
+      </AddReviewWrapper>
     </Wrapper>
   );
 }
