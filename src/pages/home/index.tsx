@@ -41,6 +41,7 @@ const RegisterButton = styled.button`
   background: teal;
   color: white;
   margin-top: 24px;
+  cursor: pointer;
 `;
 
 export default function Home() {
