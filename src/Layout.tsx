@@ -1,4 +1,4 @@
-import { Suspense, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { Redirect, Route, Switch, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import { Web3ReactProvider } from "@web3-react/core";
@@ -20,7 +20,7 @@ import {
 } from "../src/components/NavBar/styled";
 import Web3Status from "../src/components/Web3Status/index";
 import { SearchProps } from "antd/es/input/Search";
-import { LogInWithAnonAadhaar } from "anon-aadhaar-react";
+import { LogInWithAnonAadhaar, useAnonAadhaar } from "anon-aadhaar-react";
 
 const { Search } = Input;
 
@@ -125,6 +125,8 @@ export const PageTabs = () => {
 };
 
 export default function Layout() {
+  const [anonAadhaar] = useAnonAadhaar();
+
   const [searchTerm, setSearchTerm] = useState<string>();
 
   const filteredList = searchTerm
@@ -134,6 +136,10 @@ export default function Layout() {
           item.name.toLowerCase().includes(searchTerm.toLowerCase())
       )
     : companiesList;
+
+  useEffect(() => {
+    console.log("Anon Aadhaar status: ", anonAadhaar);
+  }, [anonAadhaar]);
 
   const Navbar = () => {
     // const history = useHistory();
@@ -169,6 +175,7 @@ export default function Layout() {
         </MenuContainer>
         <AnonAadharWrapper>
           <LogInWithAnonAadhaar />
+          <div>{anonAadhaar?.status}</div>
         </AnonAadharWrapper>
 
         <SearchWrapper>
