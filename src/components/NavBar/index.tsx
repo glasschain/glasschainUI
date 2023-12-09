@@ -13,6 +13,7 @@ import {
   StatusContainer,
 } from "./styled";
 import Web3Status from "../Web3Status";
+import { SearchProps } from "antd/es/input/Search";
 
 const { Search } = Input;
 
@@ -76,6 +77,9 @@ const Navbar = () => {
     history.push("/");
   }, [history]);
 
+  const onSearch: SearchProps["onSearch"] = (value, _e, info) =>
+    console.log(info?.source, value);
+
   return (
     <Nav>
       {/* <LogoContainer>
@@ -93,7 +97,11 @@ const Navbar = () => {
         <PageTabs />
       </MenuContainer>
       <SearchWrapper>
-        <Search placeholder="input search text" enterButton />
+        <Search
+          placeholder="input search text"
+          enterButton
+          onSearch={onSearch}
+        />
       </SearchWrapper>
       <StatusContainer>
         <Web3Status />

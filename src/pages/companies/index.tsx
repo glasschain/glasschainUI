@@ -13,7 +13,7 @@ const CompaniesCard = styled.div`
   background-color: var(--gd-theme-color-white, white);
   border-radius: 3px;
   box-shadow: 0 0 2px 0 #c4c7cc;
-  padding: 16px !important;
+  padding: 24px !important;
   cursor: pointer;
   &:hover {
     border: 2px solid teal;
@@ -42,33 +42,10 @@ const Ratings = styled.div`
   margin-left: 12px;
 `;
 
-export default function Companies() {
-  const companiesList = [
-    {
-      id: "1",
-      name: "Heroku",
-      ratings: "4",
-    },
-    {
-      id: "2",
-      name: "Deloitte",
-      ratings: "2",
-    },
-    {
-      id: "3",
-      name: "TCS",
-      ratings: "5",
-    },
-    {
-      id: "4",
-      name: "IBM",
-      ratings: "4",
-    },
-  ];
-
+export default function Companies(props) {
   return (
     <Wrapper>
-      {companiesList.map((company) => {
+      {props.list.map((company) => {
         return (
           <CompaniesCard>
             <CompanyName>{company.name}</CompanyName>
