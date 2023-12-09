@@ -51,29 +51,6 @@ const Marginer = styled.div`
   margin-top: 5rem;
 `;
 
-const companiesList = [
-  {
-    id: "1",
-    name: "Heroku",
-    ratings: "4",
-  },
-  {
-    id: "2",
-    name: "Deloitte",
-    ratings: "2",
-  },
-  {
-    id: "3",
-    name: "TCS",
-    ratings: "5",
-  },
-  {
-    id: "4",
-    name: "IBM",
-    ratings: "4",
-  },
-];
-
 const MenuItemLink = ({
   to,
   isActive,
@@ -108,21 +85,6 @@ export const PageTabs = () => {
       >
         <div>Companies</div>
       </MenuItemLink>
-      {/* <MenuItemLink to="/breeding" isActive={pathname.startsWith("/breeding")}>
-        <div>Breed</div>
-      </MenuItemLink>
-      <MenuItemLink
-        to="/dailyQuests"
-        isActive={pathname.startsWith("/dailyQuests")}
-      >
-        <div>Daily Quests</div>
-      </MenuItemLink>
-      <MenuItemLink
-        to="/lastRites"
-        isActive={pathname.startsWith("/lastRites")}
-      >
-        <div>Funeral Opportunity</div>
-      </MenuItemLink> */}
     </>
   );
 };
@@ -144,11 +106,11 @@ export default function Layout() {
         const res = await fetchAllCompanies(signer);
         return res;
       };
-      const fetchCompRate = async (compDomain : string) => {
+      const fetchCompRate = async (compDomain: string) => {
         const res = await fetchCompanyRatings(signer, compDomain);
         return res;
-      }
-      fecthData().then((res) => {
+      };
+      fecthData().then(async (res) => {
         const objKeys = Object.keys(res); // array of strings
         const objValues = Object.values(res); // array of 3 arrays
 
@@ -158,32 +120,31 @@ export default function Layout() {
         );
 
         // Create the result array in the desired format
-        const resultArray = transposedData.map((attributeValues) => {
+        const resultArray = transposedData.map(async (attributeValues) => {
           const resultObject = {};
           objKeys.forEach((attribute, index) => {
             resultObject[attribute] = attributeValues[index];
           });
 
-          const domain = resultObject['companyDomain']
-          fetchCompRate(domain).then ((res) => {
-            const ratings = res.companyRating;
-            const count = ratings.reduce((acc, curr) => acc + curr, 0);
-            const weightedSum = ratings.reduce((acc, curr, index) => acc + curr*(index + 1) , 0)
-            resultObject['ratings'] = count === 0 ? 0 : weightedSum / count;
-          })
+          const domain = resultObject["companyDomain"];
+          const res1 = await fetchCompRate(domain);
+          const ratings = res1.companyRating;
+          const count = ratings.reduce((acc, curr) => acc + curr, 0);
+          const weightedSum = ratings.reduce(
+            (acc, curr, index) => acc + curr * (index + 1),
+            0
+          );
+          resultObject["ratings"] = count === 0 ? 0 : weightedSum / count;
           return resultObject;
         });
+        const res2 = await Promise.all(resultArray);
 
         console.log("resultArray", resultArray);
         const filteredList = searchTerm
-          ? resultArray.filter(
-              (item) =>
-                searchTerm &&
-                item.companyName
-                  .toLowerCase()
-                  .includes(searchTerm.toLowerCase())
+          ? res2.filter((item) =>
+              item.companyName.toLowerCase().includes(searchTerm.toLowerCase())
             )
-          : resultArray;
+          : res2;
         setCompaniesList(filteredList);
       });
     }

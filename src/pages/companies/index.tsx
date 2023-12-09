@@ -79,7 +79,6 @@ export default function Companies(props) {
             <CompaniesCard>
               <CompanyName>{company.companyName}</CompanyName>
               <RatingsWrapper>
-                {/* <RatingsText>Ratings:</RatingsText> */}
                 {Array.from({ length: 5 }).map((_, idx) =>
                   idx < +company.ratings ? <StarFilled /> : <StarOutlined />
                 )}
