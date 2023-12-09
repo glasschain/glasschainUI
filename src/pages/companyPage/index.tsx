@@ -54,7 +54,7 @@ export default function CompanyPage() {
     <Wrapper>
       <CompanyDetailsCard>
         <CompanyDetails>
-          <CompanyName>IBM</CompanyName>
+          <CompanyName></CompanyName>
           <CompanyDesc>What does it do: bjcnkv nkd</CompanyDesc>
           <Ratings>Ratings: 2.5</Ratings>
         </CompanyDetails>
