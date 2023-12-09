@@ -31,7 +31,7 @@ const AddReview: React.FC = () => (
 
     <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
       <Button type="primary" htmlType="submit">
-        Submit
+        Add Review
       </Button>
     </Form.Item>
   </Form>

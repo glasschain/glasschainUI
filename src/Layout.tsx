@@ -175,7 +175,7 @@ export default function Layout() {
         </MenuContainer>
         <AnonAadharWrapper>
           <LogInWithAnonAadhaar />
-          <div>{anonAadhaar?.status}</div>
+          {/* <div>{anonAadhaar?.status}</div> */}
         </AnonAadharWrapper>
 
         <SearchWrapper>
