@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { StarFilled, StarOutlined } from "@ant-design/icons";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -30,6 +31,10 @@ const RatingsText = styled.div`
 const RatingsWrapper = styled.div`
   display: flex;
   margin-left: auto;
+  .anticon {
+    color: black;
+    margin-right: 2px;
+  }
 `;
 
 const Ratings = styled.div`
@@ -68,7 +73,10 @@ export default function Companies() {
           <CompaniesCard>
             <CompanyName>{company.name}</CompanyName>
             <RatingsWrapper>
-              <RatingsText>Ratings:</RatingsText>
+              {/* <RatingsText>Ratings:</RatingsText> */}
+              {Array.from({ length: 5 }).map((_, idx) =>
+                idx < +company.ratings ? <StarFilled /> : <StarOutlined />
+              )}
               <Ratings>{company.ratings}</Ratings>
             </RatingsWrapper>
           </CompaniesCard>
