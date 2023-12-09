@@ -23,6 +23,7 @@ import { SearchProps } from "antd/es/input/Search";
 import { LogInWithAnonAadhaar, useAnonAadhaar } from "anon-aadhaar-react";
 import { useWeb3Context } from "./contexts/web3Context";
 import fetchAllCompanies from "./hooks/interact/fetchAllCompanies";
+import fetchCompanyRatings from "./hooks/interact/fetchCompanyRatings";
 
 const { Search } = Input;
 
@@ -143,6 +144,10 @@ export default function Layout() {
         const res = await fetchAllCompanies(signer);
         return res;
       };
+      const fetchCompRate = async (compDomain : string) => {
+        const res = await fetchCompanyRatings(signer, compDomain);
+        return res;
+      }
       fecthData().then((res) => {
         const objKeys = Object.keys(res); // array of strings
         const objValues = Object.values(res); // array of 3 arrays
@@ -158,9 +163,18 @@ export default function Layout() {
           objKeys.forEach((attribute, index) => {
             resultObject[attribute] = attributeValues[index];
           });
+
+          const domain = resultObject['companyDomain']
+          fetchCompRate(domain).then ((res) => {
+            const ratings = res.companyRating;
+            const count = ratings.reduce((acc, curr) => acc + curr, 0);
+            const weightedSum = ratings.reduce((acc, curr, index) => acc + curr*(index + 1) , 0)
+            resultObject['ratings'] = count === 0 ? 0 : weightedSum / count;
+          })
           return resultObject;
         });
 
+        console.log("resultArray", resultArray);
         const filteredList = searchTerm
           ? resultArray.filter(
               (item) =>

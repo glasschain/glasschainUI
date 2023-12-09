@@ -149,16 +149,16 @@ export default function Home() {
 
   return (
     <Wrapper>
-      <ReviewForm signer={signer} />
-      <SimpleForm signer={signer} />
-      <button
+      {/* <ReviewForm signer={signer} />
+      <SimpleForm signer={signer} /> */}
+      {/* <button
         onClick={async () => {
           await fetchAllCompanies(signer);
         }}
       >
         fetch companies
-      </button>
-      <button
+      </button> */}
+      {/* <button
         onClick={async () => {
           await fetchCompanyRatings(signer, "gmail.com");
         }}
@@ -171,8 +171,8 @@ export default function Home() {
         }}
       >
         fetch user
-      </button>
-      <MyForm signer={signer} />
+      </button> */}
+      {/* <MyForm signer={signer} /> */}
       <RegisterForm>
         <RegisterText>Register</RegisterText>
         <Dragger {...props}>
