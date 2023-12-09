@@ -6,6 +6,12 @@ import { message, Upload } from "antd";
 import { useHistory } from "react-router";
 import { useWeb3Context } from "../../contexts/web3Context";
 import registerUser from "../../hooks/interact/registerUser";
+import MyForm from "./form";
+import fetchAllCompanies from "../../hooks/interact/fetchAllCompanies";
+import ReviewForm from "./reviewForm";
+import fetchCompanyRatings from "../../hooks/interact/fetchCompanyRatings";
+import SimpleForm from "./commentForm";
+import fetchUser from "../../hooks/interact/fetchUser";
 
 const { Dragger } = Upload;
 
@@ -64,7 +70,8 @@ export default function Home() {
   const handleRegister = () => {
     const domain = extractDomainFromEml();
     console.log(domain, signer);
-    registerUser(signer, domain);
+    const resp = registerUser(signer, domain);
+    console.log(resp);
     history.push("/companies");
   };
 
@@ -142,6 +149,18 @@ export default function Home() {
 
   return (
     <Wrapper>
+      {/* <ReviewForm signer={signer}/>
+      <SimpleForm signer={signer}/>
+      <button onClick={ async () => {
+        await fetchAllCompanies(signer);
+      }} >fetch companies</button>
+      <button onClick={ async () => {
+        await fetchCompanyRatings(signer, "gmail.com");
+      }} >fetch company rating</button>
+      <button onClick={ async () => {
+        await fetchUser(signer);
+      }} >fetch user</button>
+      <MyForm signer = {signer}/> */}
       <RegisterForm>
         <RegisterText>Register</RegisterText>
         <Dragger {...props}>
