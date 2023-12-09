@@ -5,8 +5,10 @@ import {
   uploadReview,
   uploadCompanyData,
   getReview,
-  getCompanyData
-} from './hooks/ipfs'
+  getCompanyData,
+} from "./hooks/ipfs";
+
+import { Web3Provider } from "./contexts/web3Context";
 
 export default function App() {
   const [hash, setHash] = useState<string>("");
@@ -24,9 +26,11 @@ export default function App() {
         }
         } > getReview</button>
       </div> */}
-      <HashRouter>
-        <Layout />
-      </HashRouter>
+      <Web3Provider>
+        <HashRouter>
+          <Layout />
+        </HashRouter>
+      </Web3Provider>
     </>
   );
 }

@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { ethers } from "ethers";
 
 import wallet from "../../assets/wallet.png";
+import { useWeb3Context } from "../../contexts/web3Context";
 
 const ConnectWalletWrapper = styled.div`
   display: flex;
@@ -31,9 +32,17 @@ declare global {
 }
 
 export default function Web3Status() {
-  const [isConnected, setIsConnected] = useState(false);
-  const [hasMetamask, setHasMetamask] = useState(false);
-  const [signer, setSigner] = useState(undefined);
+  // const [isConnected, setIsConnected] = useState(false);
+  // const [hasMetamask, setHasMetamask] = useState(false);
+  // const [signer, setSigner] = useState(undefined);
+  const {
+    isConnected,
+    hasMetamask,
+    signer,
+    setIsConnected,
+    setHasMetamask,
+    setSigner,
+  } = useWeb3Context();
 
   useEffect(() => {
     if (window && window.ethereum !== "undefined") {

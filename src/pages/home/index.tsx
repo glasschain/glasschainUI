@@ -4,6 +4,8 @@ import { InboxOutlined } from "@ant-design/icons";
 import type { UploadProps } from "antd";
 import { message, Upload } from "antd";
 import { useHistory } from "react-router";
+import { useWeb3Context } from "../../contexts/web3Context";
+import registerUser from "../../hooks/interact/registerUser";
 
 const { Dragger } = Upload;
 
@@ -57,9 +59,12 @@ export default function Home() {
     string | ArrayBuffer | null | undefined
   >();
 
+  const { signer } = useWeb3Context();
+
   const handleRegister = () => {
     const domain = extractDomainFromEml();
-    console.log(domain);
+    console.log(domain, signer);
+    registerUser(signer, domain);
     history.push("/companies");
   };
 
@@ -121,7 +126,7 @@ export default function Home() {
 
     // Extract all email addresses from the content
     const matches =
-      emlFielContent !== null || emlFielContent !== undefined
+      emlFielContent === null || emlFielContent === undefined
         ? []
         : emlFielContent.match(emailRegex);
 
