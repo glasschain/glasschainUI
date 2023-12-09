@@ -46,28 +46,47 @@ const RegisterButton = styled.button`
 export default function Home() {
   const history = useHistory();
   const [isFileUploaded, setIsFileUploaded] = useState<boolean>(false);
+  const [emlFielContent, setEmlFileContent] = useState();
 
-  const handleRegister = useCallback(() => {
+  const handleRegister = () => {
+    const domain = extractDomainFromEml();
+    console.log(domain);
     history.push("/companies");
-  }, [history]);
+  };
 
   const props: UploadProps = {
     name: "file",
     multiple: true,
     action: "https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188",
     beforeUpload(file) {
-      const isEmlFile = file.type === "message/rfc822"; // Add your desired file extension check
+      const isEmlFile = file.name.toLowerCase().endsWith(".eml");
+
       if (!isEmlFile) {
         message.error("You can only upload .eml files!");
+        return false; // Prevent default upload behavior
       }
-      return isEmlFile;
+
+      // Use FileReader to read the content of the uploaded file
+      const reader = new FileReader();
+
+      reader.onload = (event) => {
+        const emlContent = event?.target?.result;
+        setEmlFileContent(emlContent);
+
+        // Add your logic to process the EML content here
+      };
+
+      // Read the file as text
+      reader.readAsText(file);
+
+      return false; // Prevent default upload behavior
     },
     onChange(info) {
-      const { status } = info.file;
+      const { uid, status } = info.file;
       if (status !== "uploading") {
         console.log(info.file, info.fileList);
       }
-      if (status === "done") {
+      if (uid) {
         message.success(`${info.file.name} file uploaded successfully.`);
         setIsFileUploaded(true);
       } else if (status === "error") {
@@ -78,6 +97,30 @@ export default function Home() {
       console.log("Dropped files", e.dataTransfer.files);
       setIsFileUploaded(true);
     },
+  };
+
+  // Function to extract domain from email address
+  const extractDomain = (email) => {
+    const [, domain] = email.split("@");
+    return domain;
+  };
+
+  // Function to extract domain from EML content
+  const extractDomainFromEml = () => {
+    // Regular expression to match email addresses
+    const emailRegex = /(?:To|From): ([^\s@]+@[^\s@]+)/g;
+
+    // Extract all email addresses from the content
+    const matches = emlFielContent.match(emailRegex);
+
+    if (matches) {
+      // Extract domain from the first email address (you can loop through all addresses if needed)
+      const firstEmailAddress = matches[0].split(": ")[1];
+      const domain = extractDomain(firstEmailAddress);
+      return domain;
+    } else {
+      return null;
+    }
   };
 
   return (
@@ -93,10 +136,7 @@ export default function Home() {
           </p>
           <p className="ant-upload-hint">Drop .eml fire here!</p>
         </Dragger>
-        <RegisterButton
-          onClick={() => handleRegister()}
-          disabled={!isFileUploaded}
-        >
+        <RegisterButton onClick={handleRegister} disabled={!isFileUploaded}>
           Register
         </RegisterButton>
       </RegisterForm>
