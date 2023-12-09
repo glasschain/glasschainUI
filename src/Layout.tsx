@@ -24,6 +24,7 @@ import { LogInWithAnonAadhaar, useAnonAadhaar } from "anon-aadhaar-react";
 import { useWeb3Context } from "./contexts/web3Context";
 import fetchAllCompanies from "./hooks/interact/fetchAllCompanies";
 import fetchCompanyRatings from "./hooks/interact/fetchCompanyRatings";
+import CompanyPage from "./pages/companyPage";
 
 const { Search } = Input;
 
@@ -72,7 +73,9 @@ export const PageTabs = () => {
   const { pathname } = useLocation();
 
   const isHomeActive =
-    pathname.startsWith("/") && !pathname.includes("companies");
+    pathname.startsWith("/") &&
+    !pathname.includes("companies") &&
+    !pathname.includes("company");
 
   return (
     <>
@@ -84,6 +87,12 @@ export const PageTabs = () => {
         isActive={pathname.startsWith("/companies")}
       >
         <div>Companies</div>
+      </MenuItemLink>
+      <MenuItemLink
+        to="/company/details"
+        isActive={pathname.startsWith("/company")}
+      >
+        <div>Overview</div>
       </MenuItemLink>
     </>
   );
@@ -168,23 +177,11 @@ export default function Layout() {
 
     return (
       <Nav>
-        {/* <LogoContainer>
-          <img
-            height={"90px"}
-            width={"90px"}
-            src={logo}
-            alt="logo"
-            onClick={handleLogoIconClick}
-            className={"desktop"}
-          />
-        </LogoContainer> */}
-
         <MenuContainer>
           <PageTabs />
         </MenuContainer>
         <AnonAadharWrapper>
           <LogInWithAnonAadhaar />
-          {/* <div>{anonAadhaar?.status}</div> */}
         </AnonAadharWrapper>
 
         <SearchWrapper>
@@ -222,6 +219,12 @@ export default function Layout() {
                     searchTerm={searchTerm}
                   ></Companies>
                 )}
+              />
+              <Route
+                exact
+                strict
+                path="/company/details"
+                component={CompanyPage}
               />
               <Redirect to="/" />
             </Switch>
