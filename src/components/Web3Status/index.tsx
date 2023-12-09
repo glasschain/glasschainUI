@@ -39,7 +39,7 @@ export default function Web3Status() {
     if (window && window.ethereum !== "undefined") {
       setHasMetamask(true);
     }
-    connect();
+    // connect();
   }, []);
 
   let provider;
