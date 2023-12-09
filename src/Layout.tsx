@@ -21,6 +21,10 @@ import {
 import Web3Status from "../src/components/Web3Status/index";
 import { SearchProps } from "antd/es/input/Search";
 import { LogInWithAnonAadhaar, useAnonAadhaar } from "anon-aadhaar-react";
+import { useWeb3Context } from "./contexts/web3Context";
+import fetchAllCompanies from "./hooks/interact/fetchAllCompanies";
+import fetchCompanyRatings from "./hooks/interact/fetchCompanyRatings";
+import CompanyPage from "./pages/companyPage";
 
 const { Search } = Input;
 
@@ -48,29 +52,6 @@ const Marginer = styled.div`
   margin-top: 5rem;
 `;
 
-const companiesList = [
-  {
-    id: "1",
-    name: "Heroku",
-    ratings: "4",
-  },
-  {
-    id: "2",
-    name: "Deloitte",
-    ratings: "2",
-  },
-  {
-    id: "3",
-    name: "TCS",
-    ratings: "5",
-  },
-  {
-    id: "4",
-    name: "IBM",
-    ratings: "4",
-  },
-];
-
 const MenuItemLink = ({
   to,
   isActive,
@@ -92,7 +73,9 @@ export const PageTabs = () => {
   const { pathname } = useLocation();
 
   const isHomeActive =
-    pathname.startsWith("/") && !pathname.includes("companies");
+    pathname.startsWith("/") &&
+    !pathname.includes("companies") &&
+    !pathname.includes("company");
 
   return (
     <>
@@ -105,41 +88,76 @@ export const PageTabs = () => {
       >
         <div>Companies</div>
       </MenuItemLink>
-      {/* <MenuItemLink to="/breeding" isActive={pathname.startsWith("/breeding")}>
-        <div>Breed</div>
-      </MenuItemLink>
       <MenuItemLink
-        to="/dailyQuests"
-        isActive={pathname.startsWith("/dailyQuests")}
+        to="/company/details"
+        isActive={pathname.startsWith("/company")}
       >
-        <div>Daily Quests</div>
+        <div>Overview</div>
       </MenuItemLink>
-      <MenuItemLink
-        to="/lastRites"
-        isActive={pathname.startsWith("/lastRites")}
-      >
-        <div>Funeral Opportunity</div>
-      </MenuItemLink> */}
     </>
   );
 };
 
 export default function Layout() {
   const [anonAadhaar] = useAnonAadhaar();
-
+  const [companiesList, setCompaniesList] = useState<Array<unknown>>([]);
   const [searchTerm, setSearchTerm] = useState<string>();
-
-  const filteredList = searchTerm
-    ? companiesList.filter(
-        (item) =>
-          searchTerm &&
-          item.name.toLowerCase().includes(searchTerm.toLowerCase())
-      )
-    : companiesList;
 
   useEffect(() => {
     console.log("Anon Aadhaar status: ", anonAadhaar);
   }, [anonAadhaar]);
+
+  const { signer } = useWeb3Context();
+
+  useEffect(() => {
+    if (signer) {
+      const fecthData = async () => {
+        const res = await fetchAllCompanies(signer);
+        return res;
+      };
+      const fetchCompRate = async (compDomain: string) => {
+        const res = await fetchCompanyRatings(signer, compDomain);
+        return res;
+      };
+      fecthData().then(async (res) => {
+        const objKeys = Object.keys(res); // array of strings
+        const objValues = Object.values(res); // array of 3 arrays
+
+        // Transpose the matrix to group data by attribute
+        const transposedData = objValues[0].map((_, colIndex) =>
+          objValues.map((row) => row[colIndex])
+        );
+
+        // Create the result array in the desired format
+        const resultArray = transposedData.map(async (attributeValues) => {
+          const resultObject = {};
+          objKeys.forEach((attribute, index) => {
+            resultObject[attribute] = attributeValues[index];
+          });
+
+          const domain = resultObject["companyDomain"];
+          const res1 = await fetchCompRate(domain);
+          const ratings = res1.companyRating;
+          const count = ratings.reduce((acc, curr) => acc + curr, 0);
+          const weightedSum = ratings.reduce(
+            (acc, curr, index) => acc + curr * (index + 1),
+            0
+          );
+          resultObject["ratings"] = count === 0 ? 0 : weightedSum / count;
+          return resultObject;
+        });
+        const res2 = await Promise.all(resultArray);
+
+        console.log("resultArray", resultArray);
+        const filteredList = searchTerm
+          ? res2.filter((item) =>
+              item.companyName.toLowerCase().includes(searchTerm.toLowerCase())
+            )
+          : res2;
+        setCompaniesList(filteredList);
+      });
+    }
+  }, [searchTerm, signer]);
 
   const Navbar = () => {
     // const history = useHistory();
@@ -159,23 +177,11 @@ export default function Layout() {
 
     return (
       <Nav>
-        {/* <LogoContainer>
-          <img
-            height={"90px"}
-            width={"90px"}
-            src={logo}
-            alt="logo"
-            onClick={handleLogoIconClick}
-            className={"desktop"}
-          />
-        </LogoContainer> */}
-
         <MenuContainer>
           <PageTabs />
         </MenuContainer>
         <AnonAadharWrapper>
           <LogInWithAnonAadhaar />
-          {/* <div>{anonAadhaar?.status}</div> */}
         </AnonAadharWrapper>
 
         <SearchWrapper>
@@ -209,10 +215,16 @@ export default function Layout() {
                 path="/companies"
                 component={() => (
                   <Companies
-                    list={filteredList}
+                    list={companiesList}
                     searchTerm={searchTerm}
                   ></Companies>
                 )}
+              />
+              <Route
+                exact
+                strict
+                path="/company/details"
+                component={CompanyPage}
               />
               <Redirect to="/" />
             </Switch>

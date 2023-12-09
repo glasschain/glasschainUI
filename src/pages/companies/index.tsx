@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { StarFilled, StarOutlined } from "@ant-design/icons";
 import AddReview from "../../components/AddReview";
+import { useHistory } from "react-router";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -22,10 +23,6 @@ const CompaniesCard = styled.div`
 `;
 
 const CompanyName = styled.div`
-  color: black;
-`;
-
-const RatingsText = styled.div`
   color: black;
 `;
 
@@ -68,15 +65,19 @@ const AddReviewWrapper = styled.div`
 `;
 
 export default function Companies(props) {
+  const history = useHistory();
+
+  const handleClickCompany = () => {
+    history.push("/company/details");
+  };
   return (
     <Wrapper>
       <CompaniesWrapper>
         {props.list.map((company) => {
           return (
-            <CompaniesCard>
-              <CompanyName>{company.name}</CompanyName>
+            <CompaniesCard onClick={handleClickCompany}>
+              <CompanyName>{company.companyName}</CompanyName>
               <RatingsWrapper>
-                {/* <RatingsText>Ratings:</RatingsText> */}
                 {Array.from({ length: 5 }).map((_, idx) =>
                   idx < +company.ratings ? <StarFilled /> : <StarOutlined />
                 )}

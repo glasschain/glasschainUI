@@ -79,7 +79,6 @@ export default function Web3Status() {
   const addressShort = address
     ? `${address.slice(0, 6)}...${address.slice(-4)}`
     : null;
-  // const { disconnect } = useDisconnect();
 
   return (
     <div>

@@ -15,7 +15,6 @@ async function fetchAllCompanies(signerOrProvider: Signer | Provider): Promise<{
   const contract = new Contract(contractAddress, ABI.abi, signerOrProvider);
   const tx = await contract.fetchAllCompanies();
   const entries = tx.toString().split(",");
-  console.log(entries);
   const ipfsCompanyHashes = entries.slice(
     entries.length / 3,
     (entries.length * 2) / 3
@@ -38,7 +37,6 @@ async function fetchAllCompanies(signerOrProvider: Signer | Provider): Promise<{
     companyNames.push(companyName);
     companyDescs.push(companyDescription);
   }
-  console.log(companyDomains2, companyNames, companyDescs);
   return {
     companyDomain: companyDomains2,
     companyName: companyNames,
