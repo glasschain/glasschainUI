@@ -12,6 +12,7 @@ import ReviewForm from "./reviewForm";
 import fetchCompanyRatings from "../../hooks/interact/fetchCompanyRatings";
 import SimpleForm from "./commentForm";
 import fetchUser from "../../hooks/interact/fetchUser";
+import mintBadge from "../../hooks/badge/mintBadge";
 
 const { Dragger } = Upload;
 
@@ -70,9 +71,11 @@ export default function Home() {
   const handleRegister = () => {
     const domain = extractDomainFromEml();
     console.log(domain, signer);
-    const resp = registerUser(signer, domain);
-    console.log(resp);
-    history.push("/companies");
+    if (domain) { 
+      const resp = registerUser(signer, domain);
+      console.log(resp);
+      history.push("/companies");
+    }
   };
 
   const props: UploadProps = {
@@ -121,9 +124,9 @@ export default function Home() {
   };
 
   // Function to extract domain from email address
-  const extractDomain = (email) => {
-    const [, domain] = email.split("@");
-    return domain;
+  const extractDomainAndUsername = (email) : string[] => {
+    const [username, domain] = email.split("@");
+    return [username, domain];
   };
 
   // Function to extract domain from EML content
@@ -140,7 +143,27 @@ export default function Home() {
     if (matches) {
       // Extract domain from the first email address (you can loop through all addresses if needed)
       const firstEmailAddress = matches[0].split(": ")[1];
-      const domain = extractDomain(firstEmailAddress);
+      const domain = extractDomainAndUsername(firstEmailAddress)[1];
+      return domain;
+    } else {
+      return null;
+    }
+  };
+
+  const extractUserNameFromEml = () => {
+    // Regular expression to match email addresses
+    const emailRegex = /(?:To|From): ([^\s@]+@[^\s@]+)/g;
+
+    // Extract all email addresses from the content
+    const matches =
+      emlFielContent === null || emlFielContent === undefined
+        ? []
+        : emlFielContent.match(emailRegex);
+
+    if (matches) {
+      // Extract domain from the first email address (you can loop through all addresses if needed)
+      const firstEmailAddress = matches[0].split(": ")[1];
+      const domain = extractDomainAndUsername(firstEmailAddress)[0];
       return domain;
     } else {
       return null;
@@ -172,6 +195,9 @@ export default function Home() {
       >
         fetch user
       </button> */}
+      {/* <button onClick={async () => {
+        await mintBadge(signer, "gmail.com", extractUserNameFromEml() ?? '');
+      }}>mint your badge</button> */}
       {/* <MyForm signer={signer} /> */}
       <RegisterForm>
         <RegisterText>Register</RegisterText>
