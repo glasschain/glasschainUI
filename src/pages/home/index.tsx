@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import React, { useCallback, useState } from "react";
+import { useState } from "react";
 import { InboxOutlined } from "@ant-design/icons";
 import type { UploadProps } from "antd";
 import { message, Upload } from "antd";
@@ -46,7 +46,9 @@ const RegisterButton = styled.button`
 export default function Home() {
   const history = useHistory();
   const [isFileUploaded, setIsFileUploaded] = useState<boolean>(false);
-  const [emlFielContent, setEmlFileContent] = useState();
+  const [emlFielContent, setEmlFileContent] = useState<
+    string | ArrayBuffer | null | undefined
+  >();
 
   const handleRegister = () => {
     const domain = extractDomainFromEml();
@@ -111,7 +113,10 @@ export default function Home() {
     const emailRegex = /(?:To|From): ([^\s@]+@[^\s@]+)/g;
 
     // Extract all email addresses from the content
-    const matches = emlFielContent.match(emailRegex);
+    const matches =
+      emlFielContent !== null || emlFielContent !== undefined
+        ? []
+        : emlFielContent.match(emailRegex);
 
     if (matches) {
       // Extract domain from the first email address (you can loop through all addresses if needed)
