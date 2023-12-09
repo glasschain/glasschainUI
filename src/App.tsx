@@ -1,14 +1,8 @@
 import { HashRouter } from "react-router-dom";
 import Layout from "./Layout";
 import { useState } from "react";
-import {
-  uploadReview,
-  uploadCompanyData,
-  getReview,
-  getCompanyData,
-} from "./hooks/ipfs";
-
 import { Web3Provider } from "./contexts/web3Context";
+import { AnonAadhaarProvider } from "anon-aadhaar-react";
 
 export default function App() {
   const [hash, setHash] = useState<string>("");
@@ -26,11 +20,15 @@ export default function App() {
         }
         } > getReview</button>
       </div> */}
-      <Web3Provider>
-        <HashRouter>
-          <Layout />
-        </HashRouter>
-      </Web3Provider>
+      <AnonAadhaarProvider
+        _appId={"989376886044841150015661659239621852908048351232"}
+      >
+        <Web3Provider>
+          <HashRouter>
+            <Layout />
+          </HashRouter>
+        </Web3Provider>
+      </AnonAadhaarProvider>
     </>
   );
 }

@@ -16,9 +16,11 @@ import {
   Nav,
   SearchWrapper,
   StatusContainer,
+  AnonAadharWrapper,
 } from "../src/components/NavBar/styled";
 import Web3Status from "../src/components/Web3Status/index";
 import { SearchProps } from "antd/es/input/Search";
+import { LogInWithAnonAadhaar } from "anon-aadhaar-react";
 
 const { Search } = Input;
 
@@ -165,6 +167,10 @@ export default function Layout() {
         <MenuContainer>
           <PageTabs />
         </MenuContainer>
+        <AnonAadharWrapper>
+          <LogInWithAnonAadhaar />
+        </AnonAadharWrapper>
+
         <SearchWrapper>
           <Search
             placeholder="Enter to search"
