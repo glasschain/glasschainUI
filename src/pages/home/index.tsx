@@ -10,6 +10,13 @@ const props: UploadProps = {
   name: "file",
   multiple: true,
   action: "https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188",
+  beforeUpload(file) {
+    const isEmlFile = file.type === "message/rfc822"; // Add your desired file extension check
+    if (!isEmlFile) {
+      message.error("You can only upload .eml files!");
+    }
+    return isEmlFile;
+  },
   onChange(info) {
     const { status } = info.file;
     if (status !== "uploading") {
