@@ -24,6 +24,12 @@ const RegisterForm = styled.div`
   border: 1px solid grey;
   min-height: 50vh;
   display: grid;
+  .ant-upload-wrapper
+    .ant-upload-list
+    .ant-upload-list-item
+    .ant-upload-list-item-name {
+    white-space: wrap;
+  }
 `;
 
 const RegisterText = styled.div`
