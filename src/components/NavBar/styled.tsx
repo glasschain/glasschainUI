@@ -65,7 +65,6 @@ export const SearchWrapper = styled.div`
   justify-content: flex-end;
   gap: 8px;
   background: teal;
-  margin-left: auto;
   backdrop-filter: blur(20px);
   margin-right: 24px;
   .ant-input {
@@ -107,4 +106,11 @@ export const ActiveMenuItem = styled(BaseMenuItem)`
 
 export const ExternalMenuItem = styled.a`
   ${baseLinkCss};
+`;
+
+export const AnonAadharWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  margin-right: 24px;
 `;
