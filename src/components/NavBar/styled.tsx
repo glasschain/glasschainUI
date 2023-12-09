@@ -41,6 +41,7 @@ const baseLinkCss = css`
   line-height: 22px;
   font-weight: 750;
   text-transform: uppercase;
+  cursor: pointer;
 `;
 
 const BaseMenuItem = styled(NavLink)`
@@ -54,8 +55,29 @@ export const StatusContainer = styled.div`
   justify-content: flex-end;
   gap: 8px;
   background: teal;
+  // margin-left: auto;
+  backdrop-filter: blur(20px);
+`;
+
+export const SearchWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  background: teal;
   margin-left: auto;
   backdrop-filter: blur(20px);
+  margin-right: 24px;
+  .ant-input {
+    border-radius: 0px;
+    min-height: 74px;
+  }
+  .ant-btn-primary {
+    background-color: transparent;
+  }
+  .ant-btn {
+    font-size: 20px !important;
+  }
 `;
 
 export const MenuItem = styled(BaseMenuItem)``;

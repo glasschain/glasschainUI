@@ -1,5 +1,6 @@
 import React, { useCallback } from "react";
 import { useLocation, useHistory } from "react-router-dom";
+import { Input } from "antd";
 
 // import logo from "../../assets/logo 1.png";
 import {
@@ -8,9 +9,12 @@ import {
   MenuContainer,
   MenuItem,
   Nav,
+  SearchWrapper,
   StatusContainer,
 } from "./styled";
 import Web3Status from "../Web3Status";
+
+const { Search } = Input;
 
 const MenuItemLink = ({
   to,
@@ -88,7 +92,9 @@ const Navbar = () => {
       <MenuContainer>
         <PageTabs />
       </MenuContainer>
-
+      <SearchWrapper>
+        <Search placeholder="input search text" enterButton />
+      </SearchWrapper>
       <StatusContainer>
         <Web3Status />
       </StatusContainer>
