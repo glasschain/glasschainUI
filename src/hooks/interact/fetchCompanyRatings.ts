@@ -2,7 +2,7 @@ import { Contract, Provider, Signer } from "ethers";
 
 import ABI from "./contractABI.json";
 
-const contractAddress = "0x069ebabdbbed441b90cd662a78929e7e38820921";
+const contractAddress = "0xc875e91dfd98040a86d0126f1e12d7eb8ea9d985";
 
 async function fetchCompanyRatings(
   signerOrProvider: Signer | Provider,
@@ -17,8 +17,8 @@ async function fetchCompanyRatings(
   const entries = tx.toString().split(",");
 
   const commentIds: string[] = [];
-  const compRatings: number[]= [0 , 0 , 0 , 0, 0];
- 
+  const compRatings: number[] = [0, 0, 0, 0, 0];
+
   if (entries.length < 5) {
     return {
       companyRating: compRatings,
@@ -29,7 +29,7 @@ async function fetchCompanyRatings(
   const hashes = entries.slice(5, entries.length);
 
   for (let i = 0; i < 5; i++) {
-    if (ratings[i] !== '') {
+    if (ratings[i] !== "") {
       compRatings[i] = parseInt(ratings[i]);
     }
   }
