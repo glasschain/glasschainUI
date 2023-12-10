@@ -6,6 +6,7 @@ export function Web3Provider({ children }: { children: React.ReactNode }) {
   const [isConnected, setIsConnected] = useState(false);
   const [hasMetamask, setHasMetamask] = useState(false);
   const [signer, setSigner] = useState(undefined);
+  const [companyDetails, setCompanyDetails] = useState();
 
   return (
     <Web3Context.Provider
@@ -13,9 +14,11 @@ export function Web3Provider({ children }: { children: React.ReactNode }) {
         isConnected,
         hasMetamask,
         signer,
+        companyDetails,
         setIsConnected,
         setHasMetamask,
         setSigner,
+        setCompanyDetails,
       }}
     >
       {children}

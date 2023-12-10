@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { useWeb3Context } from "../../contexts/web3Context";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -51,13 +52,17 @@ const Review = styled.div`
 
 const Ratings = styled.div``;
 export default function CompanyPage() {
+  const { companyDetails } = useWeb3Context();
+  console.log({ companyDetails });
   return (
     <Wrapper>
       <CompanyDetailsCard>
         <CompanyDetails>
-          <CompanyName>IBM</CompanyName>
-          <CompanyDesc>What does it do: bjcnkv nkd</CompanyDesc>
-          <Ratings>Ratings: 2.5</Ratings>
+          <CompanyName>{companyDetails?.companyName}</CompanyName>
+          <CompanyDesc>
+            What does it do: {companyDetails?.companyDesc}
+          </CompanyDesc>
+          <Ratings>Overall Ratings:{companyDetails?.ratings}</Ratings>
         </CompanyDetails>
         <CompanyReviews>
           <ReviewsText>Reviews</ReviewsText>

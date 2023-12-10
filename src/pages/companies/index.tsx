@@ -68,7 +68,7 @@ const AddReviewWrapper = styled.div`
 `;
 
 export default function Companies(props) {
-  const { signer } = useWeb3Context();
+  const { signer, setCompanyDetails } = useWeb3Context();
   const [anonAadhaar] = useAnonAadhaar();
 
   useEffect(() => {
@@ -78,7 +78,9 @@ export default function Companies(props) {
   }, [anonAadhaar?.status, signer]);
   const history = useHistory();
 
-  const handleClickCompany = () => {
+  const handleClickCompany = (company) => {
+    console.log(company);
+    setCompanyDetails(company);
     history.push("/company/details");
   };
   return (
@@ -86,7 +88,7 @@ export default function Companies(props) {
       <CompaniesWrapper>
         {props.list.map((company) => {
           return (
-            <CompaniesCard onClick={handleClickCompany}>
+            <CompaniesCard onClick={() => handleClickCompany(company)}>
               <CompanyName>{company.companyName}</CompanyName>
               <RatingsWrapper>
                 {Array.from({ length: 5 }).map((_, idx) =>
