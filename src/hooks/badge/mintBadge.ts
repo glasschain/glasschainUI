@@ -1,7 +1,7 @@
 import { Contract, Provider, Signer, keccak256, toUtf8Bytes } from "ethers";
 import ABI from "./nftABI.json";
 
-const nftAdress = "0xdb7891c555a74afbbd5c8a7402eb6a613571b7f2";
+const nftAdress = "0xdc8af91ad20a2c1eacc37842083939ca5c1e46e0";
 
 export default async function mintBadge(
   signerOrProvider: Signer | Provider,

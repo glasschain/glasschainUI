@@ -4,7 +4,7 @@ import { getCompanyData } from "../ipfs";
 
 import ABI from "./contractABI.json";
 
-const contractAddress = "0xc875e91dfd98040a86d0126f1e12d7eb8ea9d985";
+const contractAddress = "0x44eb54695b4830e0fc02162b22cdee067bdd80b2";
 
 async function fetchAllCompanies(signerOrProvider: Signer | Provider): Promise<{
   companyDomain: string[];

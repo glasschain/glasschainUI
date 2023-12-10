@@ -190,7 +190,7 @@ export default function Layout() {
 
         {/* <SearchWrapper>
           <Search
-            placeholder="0xc875e91dfd98040a86d0126f1e12d7eb8ea9d985search"
+            placeholder="0x44eb54695b4830e0fc02162b22cdee067bdd80b2search"
             enterButton
             onSearch={onSearch}
             value={searchTerm}
