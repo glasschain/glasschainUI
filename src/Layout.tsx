@@ -25,6 +25,7 @@ import { useWeb3Context } from "./contexts/web3Context";
 import fetchAllCompanies from "./hooks/interact/fetchAllCompanies";
 import fetchCompanyRatings from "./hooks/interact/fetchCompanyRatings";
 import CompanyPage from "./pages/companyPage";
+import RegisterCompany from "./pages/RegisterCompany";
 
 const { Search } = Input;
 
@@ -45,7 +46,7 @@ const BodyWrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  flex-flow: wrap;
+  // flex-flow: wrap;
 `;
 
 const Marginer = styled.div`
@@ -93,6 +94,9 @@ export const PageTabs = () => {
         isActive={pathname.startsWith("/company")}
       >
         <div>Overview</div>
+      </MenuItemLink>
+      <MenuItemLink to="/register" isActive={pathname.startsWith("/register")}>
+        <div>Register</div>
       </MenuItemLink>
     </>
   );
@@ -225,6 +229,12 @@ export default function Layout() {
                 strict
                 path="/company/details"
                 component={CompanyPage}
+              />
+              <Route
+                exact
+                strict
+                path="/register"
+                component={RegisterCompany}
               />
               <Redirect to="/" />
             </Switch>

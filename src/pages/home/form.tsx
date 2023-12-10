@@ -1,17 +1,24 @@
-import { Signer, Provider } from 'ethers';
-import React, { useState } from 'react';
-import registerCompany from '../../hooks/interact/registerCompany';
-
+import { Signer, Provider } from "ethers";
+import React, { useState } from "react";
+import registerCompany from "../../hooks/interact/registerCompany";
+import styled from "styled-components";
 
 interface MyFormProps {
-    signer: Signer | Provider;
-  }
+  signer: Signer | Provider;
+}
 
-  const MyForm: React.FC<MyFormProps> = ({ signer }) => {
+const FormWrapper = styled.div`
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+`;
+
+const MyForm: React.FC<MyFormProps> = ({ signer }) => {
   const [formData, setFormData] = useState({
-    name: '',
-    description: '',
-    domain: '',
+    name: "",
+    description: "",
+    domain: "",
   });
 
   const handleChange = (e) => {
@@ -23,16 +30,20 @@ interface MyFormProps {
     e.preventDefault();
     // Your custom logic for handling the form submission goes here
     // For demonstration purposes, let's just log the form data
-    console.log('Form submitted:', formData);
+    console.log("Form submitted:", formData);
     console.log(signer);
-    const resp = await registerCompany(signer, formData.name, formData.domain, formData.description);
+    const resp = await registerCompany(
+      signer,
+      formData.name,
+      formData.domain,
+      formData.description
+    );
     console.log(resp);
-
   };
 
   return (
-    <div>
-      <h2>Enter Information:</h2>
+    <FormWrapper>
+      <h2 style={{ color: "black" }}>Enter Information:</h2>
       <form onSubmit={handleSubmit}>
         <label htmlFor="name">Name:</label>
         <input
@@ -45,8 +56,11 @@ interface MyFormProps {
         />
         <br />
 
-        <label htmlFor="description">Description:</label>
+        <label htmlFor="description" style={{ color: "black" }}>
+          Description:
+        </label>
         <textarea
+          style={{ color: "black" }}
           id="description"
           name="description"
           value={formData.description}
@@ -57,7 +71,9 @@ interface MyFormProps {
         ></textarea>
         <br />
 
-        <label htmlFor="domain">Domain:</label>
+        <label htmlFor="domain" style={{ color: "black" }}>
+          Domain:
+        </label>
         <input
           type="text"
           id="domain"
@@ -70,7 +86,7 @@ interface MyFormProps {
 
         <button type="submit">Submit</button>
       </form>
-    </div>
+    </FormWrapper>
   );
 };
 
