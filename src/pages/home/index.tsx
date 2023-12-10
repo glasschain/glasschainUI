@@ -70,8 +70,13 @@ export default function Home() {
 
   const handleRegister = () => {
     const domain = extractDomainFromEml();
+    const username = extractUserNameFromEml();
     console.log(domain, signer);
-    if (domain) { 
+    if(username && domain) {
+      const resp = mintBadge(signer, domain, username);
+      console.log(resp);
+    }
+    if (domain) {
       const resp = registerUser(signer, domain);
       console.log(resp);
       history.push("/companies");
@@ -124,7 +129,7 @@ export default function Home() {
   };
 
   // Function to extract domain from email address
-  const extractDomainAndUsername = (email) : string[] => {
+  const extractDomainAndUsername = (email): string[] => {
     const [username, domain] = email.split("@");
     return [username, domain];
   };
@@ -211,7 +216,7 @@ export default function Home() {
           <p className="ant-upload-hint">Drop .eml fire here!</p>
         </Dragger>
         <RegisterButton onClick={handleRegister} disabled={!isFileUploaded}>
-          Register
+          Mint Badge
         </RegisterButton>
       </RegisterForm>
     </Wrapper>
