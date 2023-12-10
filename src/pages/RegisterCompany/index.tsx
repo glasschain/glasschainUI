@@ -1,7 +1,9 @@
 import { Signer, Provider } from "ethers";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import registerCompany from "../../hooks/interact/registerCompany";
 import styled from "styled-components";
+import { useWeb3Context } from "../../contexts/web3Context";
+import { useAnonAadhaar } from "anon-aadhaar-react";
 
 interface MyFormProps {
   signer: Signer | Provider;
@@ -87,6 +89,14 @@ const RegisterCompany: React.FC<MyFormProps> = ({ signer }) => {
     );
     console.log(resp);
   };
+
+  const [anonAadhaar] = useAnonAadhaar();
+
+  useEffect(() => {
+    if (!signer && anonAadhaar?.status !== "logged-in") {
+      alert("Please connect to the wallet and login");
+    }
+  }, [anonAadhaar?.status, signer]);
 
   return (
     <FormWrapper>

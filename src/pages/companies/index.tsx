@@ -2,6 +2,9 @@ import styled from "styled-components";
 import { StarFilled, StarOutlined } from "@ant-design/icons";
 import AddReview from "../../components/AddReview";
 import { useHistory } from "react-router";
+import { useEffect } from "react";
+import { useWeb3Context } from "../../contexts/web3Context";
+import { useAnonAadhaar } from "anon-aadhaar-react";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -65,6 +68,14 @@ const AddReviewWrapper = styled.div`
 `;
 
 export default function Companies(props) {
+  const { signer } = useWeb3Context();
+  const [anonAadhaar] = useAnonAadhaar();
+
+  useEffect(() => {
+    if (!signer && anonAadhaar?.status !== "logged-in") {
+      alert("Please connect to the wallet and login");
+    }
+  }, [anonAadhaar?.status, signer]);
   const history = useHistory();
 
   const handleClickCompany = () => {
