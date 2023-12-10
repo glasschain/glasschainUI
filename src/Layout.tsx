@@ -234,7 +234,9 @@ export default function Layout() {
                 exact
                 strict
                 path="/register"
-                component={RegisterCompany}
+                component={() => (
+                  <RegisterCompany signer={signer}></RegisterCompany>
+                )}
               />
               <Redirect to="/" />
             </Switch>
