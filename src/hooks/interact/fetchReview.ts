@@ -24,11 +24,9 @@ async function fetchReview(
       domain: "",
     };
   }
-  console.log(entries);
   const rating = parseInt(entries[0]);
   const comment = await getReview(entries[2]);
   const domain = entries[1];
-  console.log(rating, comment);
   return {
     rating: rating,
     comment: comment,

@@ -59,26 +59,26 @@ export default function CompanyPage() {
   const [reviews, setReviews] = useState<
     { rating: number; comment: string; domain: string }[]
   >([]);
-  const allReviews = async (domain) => {
-    const rawReviews = await fetchCompanyRatings(signer, domain);
-    const ratingHashes = rawReviews.ratingHashes;
-    const rl: { rating: number; comment: string; domain: string }[] = [];
-    ratingHashes.forEach(async (element) => {
-      fetchReview(signer, element).then((res) => {
-        rl.push(res);
-      });
-    });
-    return rl;
-  };
   useEffect(() => {
-    const fecthData = async () => {
-      const res = await allReviews(companyDetails?.companyDomain);
-      return res;
-    };
-    fecthData().then((res) => {
-      console.log("arrrrrayyyyy", res);
-      setReviews(res);
-    });
+    if (companyDetails?.companyDomain) {
+      const fetchData = async () => {
+        const rawReviews = await fetchCompanyRatings(
+          signer,
+          companyDetails?.companyDomain
+        );
+        const ratingHashes = rawReviews.ratingHashes;
+        const rl = ratingHashes.map(async (element) => {
+          return await fetchReview(signer, element);
+        });
+        const res = Promise.all(rl);
+        console.log("resx", res);
+        return res;
+      };
+      fetchData().then((res) => {
+        console.log("arrrrrayyyyy", res);
+        setReviews(res);
+      });
+    }
   }, [companyDetails?.companyDomain]);
   return (
     <Wrapper>
@@ -93,7 +93,12 @@ export default function CompanyPage() {
         <CompanyReviews>
           <ReviewsText>Reviews</ReviewsText>
           {reviews.map((review) => {
-            return <div>{review.comment}</div>;
+            return (
+              <div>
+                <div>Review: {review.comment}</div>
+                <div>Rating: {review.rating}</div>
+              </div>
+            );
           })}
         </CompanyReviews>
       </CompanyDetailsCard>
