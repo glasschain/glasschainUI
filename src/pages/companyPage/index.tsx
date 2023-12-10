@@ -1,5 +1,8 @@
 import styled from "styled-components";
 import { useWeb3Context } from "../../contexts/web3Context";
+import fetchCompanyRatings from "../../hooks/interact/fetchCompanyRatings";
+import fetchReview from "../../hooks/interact/fetchReview";
+import { useEffect, useState } from "react";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -52,8 +55,31 @@ const Review = styled.div`
 
 const Ratings = styled.div``;
 export default function CompanyPage() {
-  const { companyDetails } = useWeb3Context();
-  console.log({ companyDetails });
+  const { signer, companyDetails } = useWeb3Context();
+  const [reviews, setReviews] = useState<
+    { rating: number; comment: string; domain: string }[]
+  >([]);
+  const allReviews = async (domain) => {
+    const rawReviews = await fetchCompanyRatings(signer, domain);
+    const ratingHashes = rawReviews.ratingHashes;
+    const rl: { rating: number; comment: string; domain: string }[] = [];
+    ratingHashes.forEach(async (element) => {
+      fetchReview(signer, element).then((res) => {
+        rl.push(res);
+      });
+    });
+    return rl;
+  };
+  useEffect(() => {
+    const fecthData = async () => {
+      const res = await allReviews(companyDetails?.companyDomain);
+      return res;
+    };
+    fecthData().then((res) => {
+      console.log("arrrrrayyyyy", res);
+      setReviews(res);
+    });
+  }, [companyDetails?.companyDomain]);
   return (
     <Wrapper>
       <CompanyDetailsCard>
@@ -62,12 +88,13 @@ export default function CompanyPage() {
           <CompanyDesc>
             What does it do: {companyDetails?.companyDesc}
           </CompanyDesc>
-          <Ratings>Overall Ratings:{companyDetails?.ratings}</Ratings>
+          <Ratings>Overall Ratings: {companyDetails?.ratings}</Ratings>
         </CompanyDetails>
         <CompanyReviews>
           <ReviewsText>Reviews</ReviewsText>
-          <Review>hcbdvjhbn</Review>
-          <Review>hdbjbnjnjn</Review>
+          {reviews.map((review) => {
+            return <div>{review.comment}</div>;
+          })}
         </CompanyReviews>
       </CompanyDetailsCard>
     </Wrapper>
