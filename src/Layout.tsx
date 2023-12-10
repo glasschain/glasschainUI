@@ -188,15 +188,15 @@ export default function Layout() {
           <LogInWithAnonAadhaar />
         </AnonAadharWrapper>
 
-        <SearchWrapper>
+        {/* <SearchWrapper>
           <Search
-            placeholder="Enter to search"
+            placeholder="0xc875e91dfd98040a86d0126f1e12d7eb8ea9d985search"
             enterButton
             onSearch={onSearch}
             value={searchTerm}
             onChange={onInputChange}
           />
-        </SearchWrapper>
+        </SearchWrapper> */}
         <StatusContainer>
           <Web3Status />
         </StatusContainer>
