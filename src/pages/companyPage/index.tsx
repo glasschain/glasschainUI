@@ -23,6 +23,7 @@ const CompanyDetailsCard = styled.div`
   height: 50vh;
   margin: auto;
   box-shadow: 10px 10px teal;
+  color: white;
 `;
 
 const CompanyName = styled.div`
@@ -54,7 +55,7 @@ export default function CompanyPage() {
     <Wrapper>
       <CompanyDetailsCard>
         <CompanyDetails>
-          <CompanyName></CompanyName>
+          <CompanyName>IBM</CompanyName>
           <CompanyDesc>What does it do: bjcnkv nkd</CompanyDesc>
           <Ratings>Ratings: 2.5</Ratings>
         </CompanyDetails>
